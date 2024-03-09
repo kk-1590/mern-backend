@@ -1,4 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
+import { response } from "express";
 import fs from "fs";
 
 cloudinary.config({
@@ -18,19 +19,19 @@ const uploadOnCloudinary = async (localFilePath) => {
     });
     //file has been uploaded
     console.log("File is uploaded on clodinary", response.url);
+    fs.unlinkSync(localFilePath);
     return response;
   } catch (error) {
     fs.unlinkSync(localFilePath); //remove the locally saved temporary file as the upload operation got failed
-    return null;
   }
 };
 
-cloudinary.uploader.upload(
-  "https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
-  { public_id: "olympic_flag" },
-  function (error, result) {
-    console.log(result);
-  }
-);
+// cloudinary.uploader.upload(
+//   "https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
+//   { public_id: "olympic_flag" },
+//   function (error, result) {
+//     console.log(result);
+//   }
+// );
 
 export { uploadOnCloudinary };

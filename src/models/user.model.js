@@ -49,7 +49,7 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-userSchema.pre("save", async function (req, res, next) {
+userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     return next();
   }
